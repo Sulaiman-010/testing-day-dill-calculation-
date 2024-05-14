@@ -16,7 +16,7 @@ price = 0
 minute_price_sum = 0
 hour_price_sum = 0
 previous_days_sum = 0  # Cumulative sum of prices from previous days
-days_counter = 0  # Counter for tracking days
+days_counter = 1  # Counter for tracking days
 minute_counter = 0  # Counter for minutes
 hour_counter = 0  # Counter for hours
 
@@ -97,13 +97,15 @@ while True:
                         print(f"Error reading hour file: {e}")
 
             # Create day file and write sum of prices every 24 hours
-            day_file_name = f"/day_{utime.localtime()[2]}_{utime.localtime()[1]}_{utime.localtime()[0]}.txt"
+            day_file_name = f"/day_{days_counter}.txt"
             with open(day_file_name, "w") as day_file:
-                day_file.write(f"Day {utime.localtime()[2]}-{utime.localtime()[1]}-{utime.localtime()[0]} - Price: {total_day_price:.6f}\n")
+                day_file.write(f"Day {days_counter} - Price: {total_day_price:.6f}\n")
             # Update previous day sum for next day
             previous_days_sum = total_day_price
 
-            # Reset hour counter for next day
+            # Reset hour counter and day counter for next day
             hour_counter = 0
+            days_counter += 1
 
     utime.sleep(1)
+
